@@ -68,11 +68,6 @@ local x    = 0
 local swap = 0
 local Vhf1_act = 0
 local Vhf2_act = 0
-local VOR_act = 0
-local ILS_act = 0
-local ADF_act = 0
-local Nav_act = 0
-local Nav_holding = 0
 local Light_test_sw = 0
 local Rmp2 = 0
 
@@ -110,10 +105,6 @@ A319_Pk_Rmp_enc_sml     = find_dataref("pikitanga/ocusbmapper/arm/input/encoder/
 A319_Pk_Rmp_button_tfr  = find_dataref("pikitanga/ocusbmapper/arm/input/button/tfr")
 A319_Pk_Rmp_button_vhf1 = find_dataref("pikitanga/ocusbmapper/arm/input/button/vhf1")
 A319_Pk_Rmp_button_vhf2 = find_dataref("pikitanga/ocusbmapper/arm/input/button/vhf2")
-A319_Pk_Rmp_button_nav  = find_dataref("pikitanga/ocusbmapper/arm/input/button/nav")
-A319_Pk_Rmp_button_adf  = find_dataref("pikitanga/ocusbmapper/arm/input/button/adf")
-A319_Pk_Rmp_button_vor  = find_dataref("pikitanga/ocusbmapper/arm/input/button/vor")
-A319_Pk_Rmp_button_ils  = find_dataref("pikitanga/ocusbmapper/arm/input/button/ils")
 A319_Pk_Rmp_dspl_bright = find_dataref("pikitanga/ocusbmapper/arm/output/dspl/brightness")
 
 A319_Bus_powered        = find_dataref("AirbusFBW/ElecConnectors")
@@ -136,10 +127,6 @@ A319_Rmp_enc_sml_up     = find_command("AirbusFBW/RMP1FreqUpSml")
 A319_Rmp_button_tfr     = find_command("AirbusFBW/RMPSwapCapt")
 A319_Rmp_button_vhf1    = find_command("AirbusFBW/VHF1Capt")
 A319_Rmp_button_vhf2    = find_command("AirbusFBW/VHF2Capt")
-A319_Rmp_button_nav     = find_command("AirbusFBW/RMP1/BackupNavPress")
-A319_Rmp_button_vor     = find_command("AirbusFBW/RMP1/BackupNavVORPress")
-A319_Rmp_button_adf     = find_command("AirbusFBW/RMP1/BackupNavADFPress")
-A319_Rmp_button_ils     = find_command("AirbusFBW/RMP1/BackupNavILSPress")
 
 
 
@@ -300,22 +287,6 @@ function Rmp_Process()
          end
          if A319_Pk_Rmp_button_vhf2[1] == 1 then
             Rmp2 = 0
-         end
-
-         if A319_Pk_Rmp_button_nav[DEVICE_ARM] == 1 and Nav_holding == 0 then
-            Nav_holding = 1
-            A319_Rmp_button_nav:once()
-            if Nav_active == 1 then
-               Nav_active = 0
-               A319_Pk_Rmp_led_nav[DEVICE_ARM] = 0
-            else
-               Nav_active = 1
-               A319_Pk_Rmp_led_nav[DEVICE_ARM] = 1
-            end
-         end
-
-         if A319_Pk_Rmp_button_nav[DEVICE_ARM] == 0 and Nav_holding == 1 then
-            Nav_holding = 0
          end
          
          A319_Pk_dspl_dec[DEVICE_ARM] = 10
